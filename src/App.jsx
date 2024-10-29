@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Main from "./page/Main/index";
 import Upload from "./page/Upload/index";
+import Pay from "./page/Pay/index";
+import Guide from "./page/Guide/index";
+import Numbers from "./page/Numbers/index";
 
 const App = () => {
   return (
@@ -10,7 +13,11 @@ const App = () => {
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Upload />}></Route>
+          <Route path="/" element={<Main />}></Route>
+          <Route path="/upload" element={<Upload />}></Route>
+          <Route path="/numbers" element={<Numbers />}></Route>
+          <Route path="/pay" element={<Pay />}></Route>
+          <Route path="/guide" element={<Guide />}></Route>
         </Routes>
       </BrowserRouter>
     </>
