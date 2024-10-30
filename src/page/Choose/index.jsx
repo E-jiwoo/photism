@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as S from "./style";
 import image1 from "./image1.png";
 import image2 from "./image2.png";
@@ -8,6 +9,7 @@ import image4 from "./image4.png";
 const Index = () => {
   const [photos, setPhotos] = useState([null, null, null, null]);
   const [photoCount, setPhotoCount] = useState(0);
+  const navigate = useNavigate();
 
   const handleImageClick = (imgSrc) => {
     const updatedPhotos = [...photos];
@@ -29,6 +31,10 @@ const Index = () => {
     if (photo) {
       handleImageClick(photo);
     }
+  };
+
+  const handleFinish = () => {
+    navigate("/finish", { state: { photos } });
   };
 
   return (
@@ -81,6 +87,7 @@ const Index = () => {
             ))}
           </S.PhotoSection>
         </S.Frame>
+        <S.Button onClick={handleFinish}>완료</S.Button>
       </S.Container>
     </>
   );

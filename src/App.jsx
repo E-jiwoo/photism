@@ -9,6 +9,7 @@ import Guide from "./page/Guide/index";
 import Numbers from "./page/Numbers/index";
 import Cam from "./page/Cam/index";
 import Choose from "./page/Choose/index";
+import Finish from "./page/Finish/index";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/guide" element={<Guide />}></Route>
           <Route path="/cam" element={<Cam />}></Route>
           <Route path="/choose" element={<Choose />}></Route>
+          <Route path="/finish" element={<Finish />}></Route>
         </Routes>
       </BrowserRouter>
     </>
