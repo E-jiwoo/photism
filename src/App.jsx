@@ -8,6 +8,7 @@ import Pay from "./page/Pay/index";
 import Guide from "./page/Guide/index";
 import Numbers from "./page/Numbers/index";
 import Cam from "./page/Cam/index";
+import Choose from "./page/Choose/index";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/pay" element={<Pay />}></Route>
           <Route path="/guide" element={<Guide />}></Route>
           <Route path="/cam" element={<Cam />}></Route>
+          <Route path="/choose" element={<Choose />}></Route>
         </Routes>
       </BrowserRouter>
     </>
