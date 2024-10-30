@@ -1,18 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 import axios from "axios";
+import overlay from "./overlay.png";
 
 const SERVER_URL = "http://172.30.1.95:8796/upload";
 
 const Shot = () => {
   const [isCaptured, setIsCaptured] = useState(false);
   const [countdown, setCountdown] = useState(10);
+  const [overlayPositionX, setOverlayPositionX] = useState(0); // 오버레이 이미지의 x축 위치
+  const [overlayPositionY, setOverlayPositionY] = useState(0); // 오버레이 이미지의 y축 위치
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const countdownRef = useRef(null);
+  const overlayImageRef = useRef(new Image());
   const [capturedImage, setCapturedImage] = useState(null);
 
   useEffect(() => {
+    overlayImageRef.current.src = overlay;
+
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
@@ -41,11 +47,34 @@ const Shot = () => {
     }
   }, [countdown]);
 
-  const captureImage = async () => {
-    const videoElement = videoRef.current;
-    const canvasElement = canvasRef.current;
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowLeft") {
+      setOverlayPositionX((prev) => Math.max(prev - 10, -230)); // 왼쪽으로 이동
+    } else if (event.key === "ArrowRight") {
+      setOverlayPositionX((prev) => Math.min(prev + 10, 230)); // 오른쪽으로 이동
+    } else if (event.key === "ArrowUp") {
+      setOverlayPositionY((prev) => Math.max(prev - 10, -20)); // 위로 이동
+    } else if (event.key === "ArrowDown") {
+      setOverlayPositionY((prev) => Math.min(prev + 10, 270)); // 아래로 이동
+    }
+  };
 
-    if (videoElement && canvasElement) {
+  useEffect(() => {
+    drawOverlay();
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [overlayPositionX, overlayPositionY]);
+
+  const drawOverlay = () => {
+    const canvasElement = canvasRef.current;
+    const videoElement = videoRef.current;
+    const overlayImage = overlayImageRef.current;
+
+    if (canvasElement && videoElement && overlayImage) {
       const context = canvasElement.getContext("2d");
       canvasElement.width = 640;
       canvasElement.height = 480;
@@ -57,25 +86,51 @@ const Shot = () => {
         canvasElement.width,
         canvasElement.height
       );
+
+      const overlayWidth = canvasElement.width * 0.3;
+      const overlayHeight =
+        (overlayImage.height / overlayImage.width) * overlayWidth;
+      const overlayX =
+        (canvasElement.width - overlayWidth) / 2 + overlayPositionX;
+      const overlayY = 20 + overlayPositionY;
+
+      context.drawImage(
+        overlayImage,
+        overlayX,
+        overlayY,
+        overlayWidth,
+        overlayHeight
+      );
+
+      requestAnimationFrame(drawOverlay);
+    }
+  };
+
+  const captureImage = async () => {
+    const canvasElement = canvasRef.current;
+
+    if (canvasElement) {
       const imageData = canvasElement.toDataURL("image/png");
       setCapturedImage(imageData);
       setIsCaptured(true);
 
-      // Base64 이미지를 Blob으로 변환
       const base64Image = imageData.split(",")[1];
       const blob = await (
         await fetch(`data:image/png;base64,${base64Image}`)
       ).blob();
 
-      // FormData 객체 생성
-      const formData = new FormData();
-      formData.append("picture", blob, "captured_image.png"); // 'file' 필드에 Blob 추가
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "captured_image.png";
+      link.click();
 
-      // FastAPI 서버에 이미지 전송
+      const formData = new FormData();
+      formData.append("picture", blob, "captured_image.png");
+
       try {
         const response = await axios.post(SERVER_URL, formData, {
           headers: {
-            "Content-Type": "multipart/form-data", // FormData를 사용할 때 Content-Type 설정
+            "Content-Type": "multipart/form-data",
           },
         });
         console.log("Image uploaded successfully:", response.data);
@@ -85,16 +140,17 @@ const Shot = () => {
     }
   };
 
+  const handleRetake = () => {
+    setIsCaptured(false);
+    setCountdown(10);
+  };
+
   return (
     <S.Container>
-      <S.Video
-        ref={videoRef}
-        autoPlay
-        style={{ display: isCaptured ? "none" : "block" }}
-      />
+      <video ref={videoRef} autoPlay style={{ display: "none" }} />
       <S.Canvas
         ref={canvasRef}
-        style={{ display: isCaptured ? "block" : "none" }}
+        style={{ display: isCaptured ? "none" : "block" }}
       />
       {!isCaptured && (
         <S.Countdown>
@@ -105,7 +161,7 @@ const Shot = () => {
         <div>
           <h3>촬영한 이미지:</h3>
           <img src={capturedImage} alt="Captured" width="100" />
-          <button onClick={() => setIsCaptured(false)}>재촬영</button>
+          <button onClick={handleRetake}>재촬영</button>
         </div>
       )}
     </S.Container>
