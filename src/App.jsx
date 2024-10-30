@@ -7,6 +7,7 @@ import Payment from "./page/Payment/index";
 import Pay from "./page/Pay/index";
 import Guide from "./page/Guide/index";
 import Numbers from "./page/Numbers/index";
+import Cam from "./page/Cam/index";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/payment" element={<Payment />}></Route>
           <Route path="/pay" element={<Pay />}></Route>
           <Route path="/guide" element={<Guide />}></Route>
+          <Route path="/cam" element={<Cam />}></Route>
         </Routes>
       </BrowserRouter>
     </>
