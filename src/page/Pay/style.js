@@ -31,41 +31,63 @@ export const Title_k = styled.div`
   font-weight: 500;
 `;
 
-export const PaymentSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 200px;
-`;
-
-export const PaymentBox = styled.div`
+export const Contain = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 420px;
-  height: 350px;
-  border: 1px solid black;
-  border-radius: 20px;
-  gap: 10px;
+  gap: 5px;
+  padding-top: 20px;
 `;
-export const Card = styled.img`
-  width: 274px;
-  height: 155px;
-  padding-bottom: 20px;
-`;
-export const Cash = styled.img`
-  width: 286px;
-  height: 171px;
-`;
-export const Text_E = styled.div`
+
+export const Subtitle_E = styled.div`
   color: #000;
   font-size: 25px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
 `;
+export const Subtitle_K = styled.div`
+  color: #000;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 500;
+`;
+
+export const AmountBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 290px;
+  height: 95px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-top: 20px;
+`;
+
+export const Amount = styled.div`
+  color: #000;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 500;
+`;
+
+export const TextSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-top: 100px;
+`;
+
 export const Text_k = styled.div`
   color: #000;
   font-size: 30px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
+`;
+
+export const Text_E = styled.div`
+  color: #000;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
 `;

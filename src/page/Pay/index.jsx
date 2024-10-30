@@ -1,31 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as S from "./style";
-import card from "../../assets/card.svg";
-import cash from "../../assets/cash.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const index = () => {
+const Index = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { number, totalAmount } = location.state || {
+    number: 2,
+    totalAmount: 0,
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/guide");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <>
       <S.Container>
         <S.TitleSection>
-          <S.Title_E>Select payment method</S.Title_E>
-          <S.Title_k>결제 수단 선택</S.Title_k>
+          <S.Title_E>Payment in progress</S.Title_E>
+          <S.Title_k>결제 중</S.Title_k>
         </S.TitleSection>
-        <S.PaymentSection>
-          <S.PaymentBox>
-            <S.Card src={card} alt="card"></S.Card>
-            <S.Text_E>credit card</S.Text_E>
-            <S.Text_k>카드</S.Text_k>
-          </S.PaymentBox>
-          <S.PaymentBox>
-            <S.Cash src={cash} alt="card"></S.Cash>
-            <S.Text_E>cash</S.Text_E>
-            <S.Text_k>현금</S.Text_k>
-          </S.PaymentBox>
-        </S.PaymentSection>
+        <S.Contain>
+          <S.Subtitle_E>Needed</S.Subtitle_E>
+          <S.Subtitle_K>필요 금액</S.Subtitle_K>
+          <S.AmountBox>
+            <S.Amount>₩{totalAmount.toLocaleString()}</S.Amount>
+          </S.AmountBox>
+          <S.TextSection>
+            <S.Text_k>
+              <b>결제 중입니다.</b>
+            </S.Text_k>
+            <S.Text_E>Payment</S.Text_E>
+          </S.TextSection>
+        </S.Contain>
       </S.Container>
     </>
   );
 };
 
-export default index;
+export default Index;
