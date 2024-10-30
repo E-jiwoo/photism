@@ -73,4 +73,5 @@ export const Photo = styled.div`
   width: 172px;
   height: 139px;
   background-color: white;
+  cursor: pointer;
 `;

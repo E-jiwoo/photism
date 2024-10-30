@@ -51,7 +51,7 @@ const Shot = () => {
     if (event.key === "ArrowLeft") {
       setOverlayPositionX((prev) => Math.max(prev - 10, -230)); // 왼쪽으로 이동
     } else if (event.key === "ArrowRight") {
-      setOverlayPositionX((prev) => Math.min(prev + 10, 230)); // 오른쪽으로 이동
+      setOverlayPositionX((prev) => Math.min(prev + 10, 23)); // 오른쪽으로 이동
     } else if (event.key === "ArrowUp") {
       setOverlayPositionY((prev) => Math.max(prev - 10, -20)); // 위로 이동
     } else if (event.key === "ArrowDown") {

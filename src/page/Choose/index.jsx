@@ -10,13 +10,24 @@ const Index = () => {
   const [photoCount, setPhotoCount] = useState(0);
 
   const handleImageClick = (imgSrc) => {
-    const updatedPhotos = photos.map((photo) => photo);
+    const updatedPhotos = [...photos];
     const firstEmptyIndex = updatedPhotos.findIndex((photo) => photo === null);
+    const existingIndex = updatedPhotos.findIndex((photo) => photo === imgSrc);
 
-    if (firstEmptyIndex !== -1) {
+    if (existingIndex !== -1) {
+      updatedPhotos[existingIndex] = null;
+      setPhotos(updatedPhotos);
+      setPhotoCount((prevCount) => Math.max(prevCount - 1, 0));
+    } else if (firstEmptyIndex !== -1 && photoCount < 4) {
       updatedPhotos[firstEmptyIndex] = imgSrc;
       setPhotos(updatedPhotos);
-      setPhotoCount(photoCount + 1);
+      setPhotoCount((prevCount) => Math.min(prevCount + 1, 4));
+    }
+  };
+
+  const handlePhotoClick = (photo) => {
+    if (photo) {
+      handleImageClick(photo);
     }
   };
 
@@ -65,6 +76,7 @@ const Index = () => {
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
+                onClick={() => handlePhotoClick(photo)}
               />
             ))}
           </S.PhotoSection>
