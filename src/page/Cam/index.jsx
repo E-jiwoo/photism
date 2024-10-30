@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
+import axios from "axios";
+
+const SERVER_URL = "http://172.30.1.95:8796/upload";
 
 const Shot = () => {
   const [isCaptured, setIsCaptured] = useState(false);
@@ -38,7 +41,7 @@ const Shot = () => {
     }
   }, [countdown]);
 
-  const captureImage = () => {
+  const captureImage = async () => {
     const videoElement = videoRef.current;
     const canvasElement = canvasRef.current;
 
@@ -58,12 +61,27 @@ const Shot = () => {
       setCapturedImage(imageData);
       setIsCaptured(true);
 
-      const link = document.createElement("a");
-      link.href = imageData;
-      link.download = "captured_image.png";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Base64 이미지를 Blob으로 변환
+      const base64Image = imageData.split(",")[1];
+      const blob = await (
+        await fetch(`data:image/png;base64,${base64Image}`)
+      ).blob();
+
+      // FormData 객체 생성
+      const formData = new FormData();
+      formData.append("picture", blob, "captured_image.png"); // 'file' 필드에 Blob 추가
+
+      // FastAPI 서버에 이미지 전송
+      try {
+        const response = await axios.post(SERVER_URL, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // FormData를 사용할 때 Content-Type 설정
+          },
+        });
+        console.log("Image uploaded successfully:", response.data);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
