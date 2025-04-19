@@ -1,8 +1,12 @@
-# React + Vite
+# 가상 인물과 함께 찍는 네컷
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![122shots_so (2)](https://github.com/user-attachments/assets/62278965-cf17-4240-bb64-9c77019c84de)
+## Project Overview
 
-Currently, two official plugins are available:
+Photism은 사용자가 원하는 가상의 인물과 함께 사진을 찍어 간직할 수 있는 서비스입니다.
+<br/>
+## Background
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+소방청과 유튜브 채널 원더맨이 진행한 프로젝트에서, 순직하신 소방관분들의 가족과 동료들을 위해 특별한 경험을 제공했던 사례가 있었습니다. 사람들에게는 소방관 캐릭터와 함께 사진을 찍는다고 안내했지만, 사진에는 캐릭터 대신 순직하신 소방관분들의 모습이 담겨 있었습니다. 이를 본 가족과 동료들은 감동의 눈물을 흘렸고, 그 순간은 모두에게 깊은 위로와 의미를 남겼습니다.
+<br/>
+이 사례를 통해 우리는 사람들에게 원하는 가상의 인물과 함께 사진을 찍어 특별한 추억으로 간직할 수 있는 서비스를 제공하는 것의 가능성과 가치를 확인했습니다. 이에, 사용자들에게 맞춤형 가상 인물과 함께 소중한 순간을 기록할 수 있는 서비스를 기획하게 되었습니다.
